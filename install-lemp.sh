@@ -55,7 +55,8 @@ fi
 # Update packages and add MariaDB repository
 echo -e '\n[Package Updates]'
 apt-get install software-properties-common
-add-apt-repository "deb [arch=amd64,i386] http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.1/ubuntu $(lsb_release -sc) main"
+apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
+add-apt-repository 'deb http://ftp.kaist.ac.kr/mariadb/repo/10.0/ubuntu trusty main'
 add-apt-repository ppa:nginx/stable
 add-apt-repository ppa:ondrej/php
 apt-get update
@@ -116,12 +117,15 @@ sh -c 'find /srv/www/* -type d -print0 | sudo xargs -0 chmod g+s'
 # Install MariaDB
 echo -e '\n[MariaDB]'
 export DEBIAN_FRONTEND=noninteractive
-apt-get -q -y install mariadb-server
+apt-get -y install mariadb-server
+sudo mysql_secure_installation
 
 # Start
 echo
 service nginx restart
-service php5-fpm restart
+service php5.6-fpm restart
+service mysql stop
+service mysql start
 echo
 
 echo 'LEMP Stack Installation Complete'
