@@ -133,11 +133,11 @@ else
     exit 1
 fi
 
-echo "mariadb-server mariadb-server/root_password password ${NEW_MYSQL_PASSWORD}" | sudo debconf-set-selections
-echo "mariadb-server mariadb-server/root_password_again password ${NEW_MYSQL_PASSWORD}" | sudo debconf-set-selections
 apt-get -y install mariadb-server
 
-#mysql_secure_installation
+# Set MariaDB root password
+echo "mariadb-server mariadb-server/root_password password ${NEW_MYSQL_PASSWORD}" | sudo debconf-set-selections
+echo "mariadb-server mariadb-server/root_password_again password ${NEW_MYSQL_PASSWORD}" | sudo debconf-set-selections
 
 #
 # Check is expect package installed
@@ -153,16 +153,16 @@ set timeout 3
 spawn mysql_secure_installation
 
 expect \"Enter current password for root (enter for none):\"
-send \"${NEW_MYSQL_PASSWORD}\r\"
+send \"$NEW_MYSQL_PASSWORD\r\"
 
 expect \"root password?\"
 send \"y\r\"
 
 expect \"New password:\"
-send \"${NEW_MYSQL_PASSWORD}\r\"
+send \"$NEW_MYSQL_PASSWORD\r\"
 
 expect \"Re-enter new password:\"
-send \"${NEW_MYSQL_PASSWORD}\r\"
+send \"$NEW_MYSQL_PASSWORD\r\"
 
 expect \"Remove anonymous users?\"
 send \"y\r\"
