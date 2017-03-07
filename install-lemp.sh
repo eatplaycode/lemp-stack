@@ -11,6 +11,11 @@ normal=$(tput sgr0)
 serverIP=$(hostname -I | cut -f1 -d' ')
 cat <<!
 
+# Delete package expect when script is done
+# 0 - No.
+# 1 - Yes.
+PURGE_EXPECT_WHEN_DONE=0
+
 ${bold}LEMP Stack Installation${normal}
 
 Installs Nginx, MariaDB, PHP5.6 on Ubuntu14.04 and deploys a sample
@@ -23,6 +28,7 @@ if [[ ! $REPLY =~ ^[Yy]$ ]]; then
   echo 'Exiting...'
   exit 1
 fi
+
 echo
 echo
 echo 'Checking distribution ...'
@@ -117,8 +123,71 @@ sh -c 'find /srv/www/* -type d -print0 | sudo xargs -0 chmod g+s'
 # Install MariaDB
 echo -e '\n[MariaDB]'
 export DEBIAN_FRONTEND=noninteractive
+
+if [ -n "${1}" -a -z "${2}" ]; then
+  # Setup mysql root password
+  NEW_MYSQL_PASSWORD="${1}"
+else
+  echo -e "Usage:\n"
+  echo -e "   Run the script: ${0} 'your_new_root_password'"
+    exit 1
+fi
+
+echo "mariadb-server mariadb-server/root_password password ${NEW_MYSQL_PASSWORD}" | sudo debconf-set-selections
+echo "mariadb-server mariadb-server/root_password_again password ${NEW_MYSQL_PASSWORD}" | sudo debconf-set-selections
 apt-get -y install mariadb-server
-sudo mysql_secure_installation
+
+#mysql_secure_installation
+
+#
+# Check is expect package installed
+#
+if [ $(dpkg-query -W -f='${Status}' expect 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
+  echo "Can't find expect. Trying install it..."
+  apt-get -y install expect
+fi
+
+SECURE_MYSQL=$(expect -c "
+
+set timeout 3
+spawn mysql_secure_installation
+
+expect \"Enter current password for root (enter for none):\"
+send \"${NEW_MYSQL_PASSWORD}\r\"
+
+expect \"root password?\"
+send \"y\r\"
+
+expect \"New password:\"
+send \"${NEW_MYSQL_PASSWORD}\r\"
+
+expect \"Re-enter new password:\"
+send \"${NEW_MYSQL_PASSWORD}\r\"
+
+expect \"Remove anonymous users?\"
+send \"y\r\"
+
+expect \"Disallow root login remotely?\"
+send \"y\r\"
+
+expect \"Remove test database and access to it?\"
+send \"y\r\"
+
+expect \"Reload privilege tables now?\"
+send \"y\r\"
+
+expect eof
+")
+
+#
+# Execution mysql_secure_installation
+#
+echo "${SECURE_MYSQL}"
+
+if [ "${PURGE_EXPECT_WHEN_DONE}" -eq 1 ]; then
+  # Uninstalling expect package
+  apt-get -y purge expect
+fi
 
 # Start
 echo
