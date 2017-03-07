@@ -11,11 +11,6 @@ normal=$(tput sgr0)
 serverIP=$(hostname -I | cut -f1 -d' ')
 cat <<!
 
-# Delete package expect when script is done
-# 0 - No.
-# 1 - Yes.
-PURGE_EXPECT_WHEN_DONE=0
-
 ${bold}LEMP Stack Installation${normal}
 
 Installs Nginx, MariaDB, PHP5.6 on Ubuntu14.04 and deploys a sample
@@ -23,6 +18,12 @@ phpinfo() page to test configuration.
 GitHub repo: ${bold}https://github.com/eatplaycode/lemp-stack${normal}
 
 !
+
+# Delete package expect when script is done
+# 0 - No.
+# 1 - Yes.
+PURGE_EXPECT_WHEN_DONE=0
+
 read -p "${bold}Do you want to continue?[y/N]${normal} " -n 1 -r
 if [[ ! $REPLY =~ ^[Yy]$ ]]; then
   echo 'Exiting...'
