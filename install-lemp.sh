@@ -134,8 +134,8 @@ else
 fi
 
 # Set MariaDB root password
-debconf-set-selections <<< "mariadb-server mariadb-server/root_password password ''"
-debconf-set-selections <<< "mariadb-server mariadb-server/root_password_again password ''"
+debconf-set-selections <<< "mysql-server mysql-server/root_password password ''"
+debconf-set-selections <<< "mysql-server mysql-server/root_password_again password ''"
 apt-get -y install mariadb-server
 
 #
@@ -152,7 +152,7 @@ set timeout 3
 spawn mysql_secure_installation
 
 expect \"Enter current password for root (enter for none):\"
-send "\r""
+send "\r"
 
 expect \"root password?\"
 send \"y\r\"
