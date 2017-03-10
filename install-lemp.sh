@@ -199,5 +199,28 @@ service mysql start
 echo
 
 echo 'LEMP Stack Installation Complete'
+echo
+
+# [Optional] Install Git and Composer
+read -p "${bold}Do you want to Git and Composer?[y/N]${normal} " -n 1 -r
+if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+  echo 'Exiting...'
+  exit 1
+fi
+
+echo -e '\n[Installing Composer]'
+echo
+cd ~
+curl -sS https://getcomposer.org/installer | php
+mv composer.phar /usr/local/bin/composer
+echo
+
+echo -e '\n[Installing Git]'
+echo
+cd ~
+apt-get -y install git
+echo
+
+
 
 exit 0
