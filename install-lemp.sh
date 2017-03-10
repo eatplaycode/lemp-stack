@@ -59,6 +59,10 @@ if [[ $EUID -ne 0 ]]; then
   exit 1
 fi
 
+# add fallback to avoid being stuck on apt-get update
+#precedence ::ffff:0:0/96  100
+sed -i -e "s/#precedence ::ffff:0:0\/96  100/precedence ::ffff:0:0\/96  100/" /etc/gai.conf
+
 # Update packages and add MariaDB repository
 echo -e '\n[Package Updates]'
 apt-get install software-properties-common
