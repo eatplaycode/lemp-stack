@@ -8,10 +8,31 @@
 # URL:      https://eatplaycode.com
 #
 
+# Styling
+bold=$(tput bold)
+normal=$(tput sgr0)
+
 # App details
 DIRECTORY=
 DOMAIN=
 APP_PUBLIC=${DIRECTORY}/public
+
+echo
+echo -e "*************************************"
+echo
+echo -e "*   \033[1;37mSetting up Laravel on Nginx for:"
+echo -e "*       \033[1;37m${normal}Domain: \033[42m${bold}${DOMAIN}"
+echo -e "*       \033[1;37m${normal}Directory: \033[42m${bold}${DIRECTORY}"
+echo -e "*"
+echo -e "*************************************"
+echo
+
+# Confirm setup
+read -p "${bold}Do you want to Proceed? [y/N]${normal} " -n 1 -r
+if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+  echo 'Exiting...'
+  exit 1
+fi
 
 # Create Laravel App server block
 echo -e "server {
