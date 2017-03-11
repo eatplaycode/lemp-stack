@@ -217,6 +217,9 @@ echo
 cd ~
 curl -sS https://getcomposer.org/installer | php
 mv composer.phar /usr/local/bin/composer
+
+# Install zip unzip for composer to enable packages download
+apt-get install zip unzip php5.6-zip
 echo
 
 echo -e '\n[Installing Git]'
