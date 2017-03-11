@@ -32,7 +32,10 @@ echo
 # Confirm setup
 read -p "${bold}Do you want to Proceed? [y/N]${normal} " -n 1 -r
 if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-  echo -e "Exiting...\n\n\n"
+  echo
+  echo -e "Exiting...
+  echo
+  echo
   exit 1
 fi
 
