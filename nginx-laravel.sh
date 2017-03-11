@@ -11,6 +11,8 @@
 # Styling
 bold=$(tput bold)
 normal=$(tput sgr0)
+fontwhite=$('\033[1;37m')
+fontgreen=$('\033[0;32m')
 
 # App details
 DIRECTORY=
@@ -20,9 +22,9 @@ APP_PUBLIC=${DIRECTORY}/public
 echo
 echo -e "****************************************************************"
 echo -e "*"
-echo -e "* \033[1;37mSetting up Laravel on Nginx for:"
-echo -e "*   \033[1;37m Domain: \033[0;32m${bold}${DOMAIN}${normal}"
-echo -e "*   \033[1;37m Directory: \033[0;32m${bold}${DIRECTORY}${normal}"
+echo -e "* Setting up Laravel on Nginx Server:"
+echo -e "*   Domain: ${fontgreen}${bold}${DOMAIN}${normal}"
+echo -e "*   Directory: ${fontgreen}${bold}${DIRECTORY}${normal}"
 echo -e "*"
 echo -e "****************************************************************"
 echo
