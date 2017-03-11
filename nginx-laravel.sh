@@ -11,8 +11,8 @@
 # Styling
 bold=$(tput bold)
 normal=$(tput sgr0)
-fontwhite=$('\033[1;37m')
-fontgreen=$('\033[0;32m')
+fontwhite="\033[1;37m"
+fontgreen="\033[0;32m"
 
 # App details
 DIRECTORY=
