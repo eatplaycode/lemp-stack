@@ -18,7 +18,7 @@ NEW_DB_USERNAME=
 NEW_DB_PASSWORD=
 
 # Execute commands
-mysql -u ${MYSQL_USERNAME} --p="${MYSQL_PASSWORD}" <<ENDOFSQL 
+mysql -u ${MYSQL_USERNAME} --password="${MYSQL_PASSWORD}" <<ENDOFSQL 
 -- Create the database
 CREATE DATABASE ${NEW_DB_NAME};
 --
