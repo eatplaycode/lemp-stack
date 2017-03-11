@@ -18,19 +18,19 @@ DOMAIN=
 APP_PUBLIC=${DIRECTORY}/public
 
 echo
-echo -e "*************************************"
-echo
-echo -e "*   \033[1;37mSetting up Laravel on Nginx for:"
-echo -e "*       \033[1;37m${normal}Domain: \033[42m${bold}${DOMAIN}"
-echo -e "*       \033[1;37m${normal}Directory: \033[42m${bold}${DIRECTORY}"
+echo -e "****************************************************************"
 echo -e "*"
-echo -e "*************************************"
+echo -e "* \033[1;37mSetting up Laravel on Nginx for:"
+echo -e "*   \033[1;37m Domain: \033[0;32m${bold}${DOMAIN}${normal}"
+echo -e "*   \033[1;37m Directory: \033[0;32m${bold}${DIRECTORY}${normal}"
+echo -e "*"
+echo -e "****************************************************************"
 echo
 
 # Confirm setup
 read -p "${bold}Do you want to Proceed? [y/N]${normal} " -n 1 -r
 if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-  echo 'Exiting...'
+  echo -e "Exiting...\n\n\n"
   exit 1
 fi
 
@@ -75,7 +75,7 @@ echo
 
 # Show Success Message
 echo
-echo -e '\nCompleted!'
+echo -e '\033[0;32mCompleted!!'
 echo
 
 exit 0
