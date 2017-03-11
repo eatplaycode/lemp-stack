@@ -77,7 +77,7 @@ echo
 
 # Show Success Message
 echo
-echo -e '\033[0;32mCompleted!!'
+echo -e '${fontgreen}Setup Completed!!'
 echo
 
 exit 0
