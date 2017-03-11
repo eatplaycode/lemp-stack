@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Setup server block for Laravel in Nginx
 # with permission setup
@@ -46,5 +46,15 @@ echo
 chown -R :www-data ${DIRECTORY}
 chmod -R 755 ${DIRECTORY}/storage
 
+# restart nginx
+echo
+service nginx restart
+service php5.6-fpm restart
+echo
+
+# Show Success Message
+echo
+echo -e '\nCompleted!'
+echo
 
 exit 0
