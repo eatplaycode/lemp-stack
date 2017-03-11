@@ -1,7 +1,6 @@
 #!/bin/bash
 #
-# Setup server block for Laravel in Nginx
-# with permission setup
+# Setup server block in Nginx
 #
 # GitHub:   https://github.com/eatplaycode/lemp-stack
 # Author:   EatPlayCode
@@ -17,12 +16,11 @@ fontgreen="\033[0;32m"
 # App details
 DIRECTORY=
 DOMAIN=
-APP_PUBLIC=${DIRECTORY}/public
 
 echo
 echo -e "****************************************************************"
 echo -e "*"
-echo -e "* Setting up Laravel on Nginx Server:"
+echo -e "* Setting up Nginx Server Block:"
 echo -e "*   Domain: ${fontgreen}${bold}${DOMAIN}${normal}"
 echo -e "*   Directory: ${fontgreen}${bold}${DIRECTORY}${normal}"
 echo -e "*"
@@ -45,7 +43,7 @@ echo -e "server {
 
         server_name ${DOMAIN};
 
-        root ${APP_PUBLIC};
+        root ${DIRECTORY};
         index index.php index.html index.htm;
 
         location / {
@@ -63,16 +61,34 @@ echo -e "server {
 
 }" > /etc/nginx/sites-available/${DOMAIN}
 
+# DECLARE SERVER_BLOCK
+SERVER_BLOCK="/etc/nginx/sites-available/${DOMAIN}"
+ENABLE_SERVER_BLOCK="ln -s /etc/nginx/sites-available/${DOMAIN} /etc/nginx/sites-enabled/${DOMAIN}"
+
+# Confirm setup
+read -p "${bold}Do you want to enanble the site? [y/N]${normal} " -n 1 -r
+if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+  echo
+  echo -e "Server block created but not yet enabled."
+  echo -e "\nTo edit type the following in the terminal:"
+  echo -e "\n   nano ${SERVER_BLOCK}"
+  echo -e "\n\nTo enable site, type the following command:"
+  echo -e "\n   ${ENABLE_SERVER_BLOCK}"
+  echo -e "\n   service nginx restart"
+  echo
+  exit 1
+fi
+
 # enable server block
 ln -s /etc/nginx/sites-available/${DOMAIN} /etc/nginx/sites-enabled/${DOMAIN}
 
 # Update app directory permissions
-echo -e '\n[Setting up Permissions]'
+echo -e "\n${fontgreen}Site has been enabled!"
 echo
-chown -R :www-data ${DIRECTORY}
-chmod -R 755 ${DIRECTORY}/storage
+echo
 
 # restart nginx
+echo -e "Restarting Nginx and PHP5.6-FPM.."
 echo
 service nginx restart
 service php5.6-fpm restart
